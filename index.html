@@ -7,6 +7,25 @@
     <title>Github HuyBinToiChoi</title>
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet"/>
     <link rel="stylesheet" href="/static/css/app.css" />
+    <style>
+      #music-toggle {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: #ff0019;
+        color: white;
+        border: none;
+        padding: 10px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        z-index: 9999;
+      }
+
+      #music-toggle:hover {
+        background-color: #cc0015;
+      }
+    </style>
   </head>
   <body class="font-sans antialiased">
     <div
@@ -68,7 +87,7 @@
               "NguyenHuyDepTraiNhatTheGioi",
               "8h Tô Hiệu"
             ],
-            "music": "https://soundcloud.com/adameo-deezay/minh-tung-yeu-nhau-thai-hoang-remix?ref=clipboard&p=i&c=0&si=27660F7C62184C808D0A5A1F94D3153B&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
+            "music": "https://on.api-core.soundcloud-stage.com/3WSYcxQOV8PaLYE6q3"
           },
           "clientId": "/"
         },
@@ -76,11 +95,40 @@
         "version": "",
         "clearHistory": false,
         "encryptHistory": false
-      }
-      '
+      }'
     >
-  </div>
-  <script type="module" src="/static/js/app.js"></script>
-  <script type="module" src="/static/js/home.js"></script>
+    </div>
+    <audio id="bg-music" autoplay loop>
+      <source src="https://on.api-core.soundcloud-stage.com/3WSYcxQOV8PaLYE6q3" type="audio/mpeg" />
+      Trình duyệt của bạn không hỗ trợ phát âm thanh.
+    </audio>
+    <button id="music-toggle">Tắt nhạc</button>
+
+    <script>
+      const music = document.getElementById("bg-music");
+      const toggleBtn = document.getElementById("music-toggle");
+
+      toggleBtn.addEventListener("click", () => {
+        if (music.paused) {
+          music.play();
+          toggleBtn.textContent = "Tắt nhạc";
+        } else {
+          music.pause();
+          toggleBtn.textContent = "Bật nhạc";
+        }
+      });
+
+    
+      document.addEventListener("DOMContentLoaded", () => {
+        const playAttempt = setInterval(() => {
+          music.play().then(() => {
+            clearInterval(playAttempt);
+          }).catch(() => {});
+        }, 1000);
+      });
+    </script>
+
+    <script type="module" src="/static/js/app.js"></script>
+    <script type="module" src="/static/js/home.js"></script>
   </body>
 </html>
